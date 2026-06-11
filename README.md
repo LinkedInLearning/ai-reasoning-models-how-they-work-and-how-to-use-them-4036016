@@ -1,5 +1,5 @@
-# COURSENAME
-This is the repository for the LinkedIn Learning course `course-name`. The full course is available from [LinkedIn Learning][lil-course-url].
+# AI Reasoning Models: How They Work and How to Use Them
+This is the repository for the LinkedIn Learning course `AI Reasoning Models: How They Work and How to Use Them`. The full course is available from [LinkedIn Learning][lil-course-url].
 
 ![course-name-alt-text][lil-thumbnail-url] 
 
