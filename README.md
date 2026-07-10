@@ -1,35 +1,36 @@
-# AI Reasoning Models: How They Work and How to Use Them
-This is the repository for the LinkedIn Learning course `AI Reasoning Models: How They Work and How to Use Them`. The full course is available from [LinkedIn Learning][lil-course-url].
+# 04_05 Hands-on: Comparing standard and reasoning models
 
-![course-name-alt-text][lil-thumbnail-url] 
+This folder contains two math prompts for comparing a standard language model
+with a reasoning model in GitHub Models.
 
-_See the readme file in the main branch for updated instructions and information._
-## Instructions
-This repository has branches for each of the videos in the course. You can use the branch pop up menu in github to switch to a specific branch and take a look at the course at that stage, or you can add `/tree/BRANCH_NAME` to the URL to go to the branch you want to access.
-
-## Branches
-The branches are structured to correspond to the videos in the course. The naming convention is `CHAPTER#-MOVIE#`. As an example, the branch named `02-03` corresponds to the second chapter and the third video in that chapter.
-Some branches will have a beginning and an end state. These are marked with the letters `b` for "beginning" and `e` for "end". The `b` branch contains the code as it is at the beginning of the movie. The `e` branch contains the code as it is at the end of the movie. The `main` branch holds the final state of the code when in the course.
-
-When switching from one exercise files branch to the next after making changes to the files, you may get a message like this:
-
-    error: Your local changes to the following files would be overwritten by checkout:        [files]
-    Please commit your changes or stash them before you switch branches.
-    Aborting
-
-To resolve this issue:
-	
-    Add changes to git using this command: git add .
-	Commit changes using this command: git commit -m "some message"
-
-## Installing
-1. To use these exercise files, you must have the following installed:
-	- [list of requirements for course]
-2. Clone this repository into your local machine using the terminal (Mac), CMD (Windows), or a GUI tool like SourceTree.
-3. [Course-specific instructions]
+Open the GitHub Models playground and run each prompt with
+`DeepSeek-V3-0324` and `DeepSeek-R1-0528`. Compare the final answers and the
+reasoning each model uses to reach them.
 
 
-[0]: # (Replace these placeholder URLs with actual course URLs)
+&nbsp;
+## Prompt 1
 
-[lil-course-url]: https://www.linkedin.com/learning/
-[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQG0eDHsyOSqTA/learning-public-crop_675_1200/B4EZVdqqdwHUAY-/0/1741033220778?e=2147483647&v=beta&t=FxUDo6FA8W8CiFROwqfZKL_mzQhYx9loYLfjN-LNjgA
+> A phone plan charges a fixed monthly fee plus a cost per gigabyte of data. In
+> March, Maya used 6 GB and paid \$47. In April, she used 11 GB and paid \$67.
+> What is the fixed monthly fee?
+
+Correct answer: 23
+
+
+&nbsp;
+## Prompt 2
+
+> A phone plan has a fixed monthly fee and includes some data for free. Each
+> additional GB costs the same amount.
+>
+> In March, Maya used 13 GB. She received a one-time \$12 credit, so her bill
+> was \$58.
+>
+> In April, she used 21 GB. She paid a \$9 late fee, so her bill was \$115.
+>
+> In May, she used 17 GB and had no credit or fee, so her bill was \$86.
+>
+> How many GB are included for free, and what is the fixed monthly fee?
+
+Correct answer: "The fixed monthly fee is a multiple of \$5."
