@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reasoning-from-scratch-chainlit-example"
+version = "0.1.0"
+requires-python = ">=3.10,<3.15"
+dependencies = [
+    "chainlit>=2.8.3",
+    "reasoning-from-scratch",
+]
+
+[tool.setuptools]
+py-modules = [
+    "demo",
+    "demo_base",
+    "demo_distill",
+    "demo_instruct",
+    "demo_reasoning",
+]
