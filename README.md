@@ -1,35 +1,86 @@
-# AI Reasoning Models: How They Work and How to Use Them
-This is the repository for the LinkedIn Learning course `AI Reasoning Models: How They Work and How to Use Them`. The full course is available from [LinkedIn Learning][lil-course-url].
+# 02_06 Hands-on example: Inference-time scaling
 
-![course-name-alt-text][lil-thumbnail-url] 
+This folder compares three ways to answer the same reasoning problem with
+models served through GitHub Models:
 
-_See the readme file in the main branch for updated instructions and information._
-## Instructions
-This repository has branches for each of the videos in the course. You can use the branch pop up menu in github to switch to a specific branch and take a look at the course at that stage, or you can add `/tree/BRANCH_NAME` to the URL to go to the branch you want to access.
+- a single model call,
+- self-consistency through repeated sampling and majority voting,
+- self-refinement through an initial answer, a critique, and a revised answer.
 
-## Branches
-The branches are structured to correspond to the videos in the course. The naming convention is `CHAPTER#-MOVIE#`. As an example, the branch named `02-03` corresponds to the second chapter and the third video in that chapter.
-Some branches will have a beginning and an end state. These are marked with the letters `b` for "beginning" and `e` for "end". The `b` branch contains the code as it is at the beginning of the movie. The `e` branch contains the code as it is at the end of the movie. The `main` branch holds the final state of the code when in the course.
+The default prompt is a short price-calculation problem. Its correct answer is
+`$801.40`. Since model responses are sampled, the exact wording and intermediate
+answers can vary between runs.
 
-When switching from one exercise files branch to the next after making changes to the files, you may get a message like this:
+&nbsp;
+## Files
 
-    error: Your local changes to the following files would be overwritten by checkout:        [files]
-    Please commit your changes or stash them before you switch branches.
-    Aborting
+- `01_simple.py` sends the prompt to `microsoft/Phi-4-mini-instruct` once.
+- `02_self-consistency.py` samples several answers, extracts each final answer,
+  and returns the most frequent result.
+- `03_self-refinement.py` uses `microsoft/Phi-4-mini-instruct` for the initial
+  and revised answers and `microsoft/Phi-4` for the critique.
 
-To resolve this issue:
-	
-    Add changes to git using this command: git add .
-	Commit changes using this command: git commit -m "some message"
+&nbsp;
+## Setup
 
-## Installing
-1. To use these exercise files, you must have the following installed:
-	- [list of requirements for course]
-2. Clone this repository into your local machine using the terminal (Mac), CMD (Windows), or a GUI tool like SourceTree.
-3. [Course-specific instructions]
+The examples require Python and the `azure-ai-inference` package:
 
+```bash
+pip install azure-ai-inference
+```
 
-[0]: # (Replace these placeholder URLs with actual course URLs)
+The scripts read the GitHub Models access token from the `GITHUB_TOKEN`
+environment variable. GitHub Codespaces provides this variable automatically.
+For a local environment, create a GitHub personal access token and export it
+before running the scripts:
 
-[lil-course-url]: https://www.linkedin.com/learning/
-[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQG0eDHsyOSqTA/learning-public-crop_675_1200/B4EZVdqqdwHUAY-/0/1741033220778?e=2147483647&v=beta&t=FxUDo6FA8W8CiFROwqfZKL_mzQhYx9loYLfjN-LNjgA
+```bash
+export GITHUB_TOKEN="YOUR_TOKEN"
+```
+
+Do not add the token to the Python files or commit it to the repository.
+
+&nbsp;
+## Run the examples
+
+Run the single-call baseline:
+
+```bash
+python 01_simple.py
+```
+
+Run self-consistency with five sampled answers:
+
+```bash
+python 02_self-consistency.py --samples 5
+```
+
+The script asks the model to use a consistent final-answer format, normalizes
+the extracted answers, counts them, and reports the majority result. You can
+also adjust the model and sampling settings:
+
+```bash
+python 02_self-consistency.py \
+  --samples 7 \
+  --temperature 0.8 \
+  --top-p 0.9
+```
+
+Run the three-step self-refinement workflow:
+
+```bash
+python 03_self-refinement.py
+```
+
+This script prints the initial answer, the critique, and the refined answer so
+that the effect of the critique is visible.
+
+Both multi-step examples accept a custom prompt:
+
+```bash
+python 02_self-consistency.py --prompt "Your prompt here"
+python 03_self-refinement.py --prompt "Your prompt here"
+```
+
+Self-consistency and self-refinement make multiple model calls. They therefore
+take longer and use more inference quota than the single-call baseline.
